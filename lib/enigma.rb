@@ -6,6 +6,7 @@ class Enigma
 
   def encrypt(encryption, key, date)
     keys = key_combinations(key)
+    offsets = date_offset(date)
 
   end
 
@@ -16,5 +17,13 @@ class Enigma
       collector[index] = keys[0]+keys[1]
     end
     collector
+  end
+
+  def date_offset(date)
+    offsets = []
+    (date.to_i ** 2).to_s[-4..-1].split("").each do |diget,|
+      offsets << diget
+    end
+    offsets
   end
 end
