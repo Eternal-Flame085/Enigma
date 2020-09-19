@@ -63,9 +63,22 @@ class EnigmaTest < Minitest::Test
 		expected = {
 			encryption: "pib wdmczpu",
 			key: "02715",
-			date: "091920"
+			date: Date.today.strftime("%m%d%y")
 		}
 
 		assert_equal expected, enigma.encrypt("hello world", "02715")
+	end
+
+	def test_decrypt_with_key
+		enigma = Enigma.new
+
+		expected = {
+			decryption: "hello world",
+			key: "02715",
+			date: Date.today.strftime("%m%d%y")
+		}
+		encrypted = enigma.encrypt("hello world", "02715")
+
+		assert_equal expected, enigma.decrypt(encrypted[:encryption], "02715")
 	end
 end
