@@ -11,6 +11,13 @@ class Enigma
     {encryption: encrypted_message, key:key, date:date}
   end
 
+  def decrypt(cyphertext, key, date)
+    keys = key_combinations(key)
+    offsets = date_offset(date)
+    decrypted_message = decryptor(message, keys, offsets)
+    {decryption: decrypted_message, key:key, date:date}
+  end
+
   def encrypter(message, keys, offsets)
     final_string = ""
     key_offset_counter = 0
