@@ -29,7 +29,7 @@ class EnigmaTest < Minitest::Test
    	}
 
 		expected2 = {
-     	encryption: "keder ohulw",
+     	encryption: "keder ohulw!",
      	key: "02715",
      	date: "040895"
    	}
