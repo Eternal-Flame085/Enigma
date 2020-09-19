@@ -14,11 +14,28 @@ class Enigma
   def decrypt(cyphertext, key, date)
     keys = key_combinations(key)
     offsets = date_offset(date)
-    decrypted_message = decryptor(message, keys, offsets)
+    decrypted_message = decrypter(message, keys, offsets)
     {decryption: decrypted_message, key:key, date:date}
   end
 
   def encrypter(message, keys, offsets)
+    final_string = ""
+    key_offset_counter = 0
+    message.each_char do |letter|
+      if !@alphabet.include?(letter)
+        final_string += letter
+        next
+      end
+      shift = keys[key_offset_counter].to_i + offsets[key_offset_counter].to_i
+      final_shift = shift_finder(shift, letter)
+      final_string += @alphabet[final_shift]
+      key_offset_counter += 1
+      key_offset_counter = 0 if key_offset_counter == 4
+    end
+    final_string
+  end
+
+  def decrypter
     final_string = ""
     key_offset_counter = 0
     message.each_char do |letter|
