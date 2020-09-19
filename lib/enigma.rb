@@ -14,7 +14,10 @@ class Enigma
     {encryption: encrypted_message, key:key, date:date}
   end
 
-  def decrypt(cyphertext, key, date)
+  def decrypt(cyphertext, key, date = nil)
+    if date == nil
+      date = Date.today.strftime("%m%d%y")
+    end
     keys = key_combinations(key)
     offsets = date_offset(date)
     decrypted_message = decrypter(cyphertext, keys, offsets)
