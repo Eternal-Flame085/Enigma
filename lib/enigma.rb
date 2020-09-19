@@ -4,7 +4,8 @@ class Enigma
     @alphabet = ("a".."z").to_a << " "
   end
 
-  def encrypt(message, key, date = nil)
+  def encrypt(message, key = nil, date = nil)
+    key = generate_key if key.nil?
     date = Date.today.strftime("%m%d%y") if date.nil?
     keys = key_combinations(key)
     offsets = date_offset(date)
@@ -85,5 +86,9 @@ class Enigma
       offsets << diget
     end
     offsets
+  end
+
+  def generate_key
+    '%05d' % rand(5 ** 5)
   end
 end
