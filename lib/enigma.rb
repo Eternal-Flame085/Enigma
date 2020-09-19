@@ -16,16 +16,21 @@ class Enigma
     key_offset_counter = 0
     message.each_char do |letter|
       shift = keys[key_offset_counter].to_i + offsets[key_offset_counter].to_i
-      alphabet_tracker = @alphabet.index(letter.downcase)
-      shift.times do
-        alphabet_tracker = alphabet_tracker + 1
-        alphabet_tracker = 0 if alphabet_tracker == 27
-      end
-      final_string += @alphabet[alphabet_tracker]
+      final_shift = shift_finder(shift, letter)
+      final_string += @alphabet[final_shift]
       key_offset_counter += 1
       key_offset_counter = 0 if key_offset_counter == 4
     end
     final_string
+  end
+
+  def shift_finder(shift, letter)
+    alphabet_tracker = @alphabet.index(letter.downcase)
+    shift.times do
+      alphabet_tracker = alphabet_tracker + 1
+      alphabet_tracker = 0 if alphabet_tracker == 27
+    end
+    alphabet_tracker
   end
 
   def key_combinations(key)
