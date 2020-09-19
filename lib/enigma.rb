@@ -14,7 +14,7 @@ class Enigma
   def decrypt(cyphertext, key, date)
     keys = key_combinations(key)
     offsets = date_offset(date)
-    decrypted_message = decrypter(message, keys, offsets)
+    decrypted_message = decrypter(cyphertext, keys, offsets)
     {decryption: decrypted_message, key:key, date:date}
   end
 
@@ -27,7 +27,7 @@ class Enigma
         next
       end
       shift = keys[key_offset_counter].to_i + offsets[key_offset_counter].to_i
-      final_shift = shift_finder(shift, letter)
+      final_shift = shift_finder(shift, letter, "encrypt")
       final_string += @alphabet[final_shift]
       key_offset_counter += 1
       key_offset_counter = 0 if key_offset_counter == 4
@@ -35,16 +35,16 @@ class Enigma
     final_string
   end
 
-  def decrypter
+  def decrypter(cyphertext, keys, offsets)
     final_string = ""
     key_offset_counter = 0
-    message.each_char do |letter|
+    cyphertext.each_char do |letter|
       if !@alphabet.include?(letter)
         final_string += letter
         next
       end
       shift = keys[key_offset_counter].to_i + offsets[key_offset_counter].to_i
-      final_shift = shift_finder(shift, letter)
+      final_shift = shift_finder(shift, letter, "decrypt")
       final_string += @alphabet[final_shift]
       key_offset_counter += 1
       key_offset_counter = 0 if key_offset_counter == 4
@@ -52,11 +52,18 @@ class Enigma
     final_string
   end
 
-  def shift_finder(shift, letter)
+  def shift_finder(shift, letter, shift_type)
     alphabet_tracker = @alphabet.index(letter.downcase)
-    shift.times do
-      alphabet_tracker = alphabet_tracker + 1
-      alphabet_tracker = 0 if alphabet_tracker == 27
+    if shift_type == "encrypt"
+      shift.times do
+        alphabet_tracker = alphabet_tracker + 1
+        alphabet_tracker = 0 if alphabet_tracker == 27
+      end
+    elsif shift_type == "decrypt"
+      shift.times do
+        alphabet_tracker = alphabet_tracker - 1
+        alphabet_tracker = 26 if alphabet_tracker == -1
+      end
     end
     alphabet_tracker
   end
@@ -72,7 +79,7 @@ class Enigma
 
   def date_offset(date)
     offsets = []
-    (date.to_i ** 2).to_s[-4..-1].split("").each do |diget,|
+    (date.to_i ** 2).to_s[-4..-1].split("").each do |diget|
       offsets << diget
     end
     offsets
