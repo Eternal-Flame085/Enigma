@@ -15,6 +15,10 @@ class Enigma
     final_string = ""
     key_offset_counter = 0
     message.each_char do |letter|
+      if !@alphabet.include?(letter)
+        final_string += letter
+        next
+      end
       shift = keys[key_offset_counter].to_i + offsets[key_offset_counter].to_i
       final_shift = shift_finder(shift, letter)
       final_string += @alphabet[final_shift]
