@@ -22,35 +22,48 @@ class EnigmaTest < Minitest::Test
 	def test_encrypt
 		enigma = Enigma.new
 
-		expected = {
+		expected1 = {
      	encryption: "keder ohulw",
      	key: "02715",
      	date: "040895"
    	}
 
-		assert_equal expected, enigma.encrypt("hello world", "02715", "040895")
+		expected2 = {
+     	encryption: "keder ohulw",
+     	key: "02715",
+     	date: "040895"
+   	}
+
+		assert_equal expected1, enigma.encrypt("hello world", "02715", "040895")
+		assert_equal expected2, enigma.encrypt("hello world!", "02715", "040895")
 	end
 
 	def test_decrypt
 		enigma = Enigma.new
 
-		expected = {
+		expected1 = {
 			decryption: "hello world",
 			key: "02715",
 			date: "040895"
 		}
 
-		assert_equal expected, enigma.decrypt("keder ohulw", "02715", "040895")
+		expected2 = {
+			decryption: "hello world!",
+			key: "02715",
+			date: "040895"
+		}
+
+		assert_equal expected1, enigma.decrypt("keder ohulw", "02715", "040895")
+		assert_equal expected2, enigma.decrypt("keder ohulw!", "02715", "040895")
 	end
 
 	def test_encrypt_with_key
 		enigma = Enigma.new
 
-		require "pry"; binding.pry
 		expected = {
-			encryption: "keder ohulw",
+			encryption: "pib wdmczpu",
 			key: "02715",
-			date: " "
+			date: "091920"
 		}
 
 		assert_equal expected, enigma.encrypt("hello world", "02715")
