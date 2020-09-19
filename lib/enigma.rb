@@ -7,7 +7,12 @@ class Enigma
   def encrypt(message, key, date)
     keys = key_combinations(key)
     offsets = date_offset(date)
-    encryption = ""
+    encrypted_message = encrypter(message, keys, offsets)
+    {encryption: encrypted_message, key:key, date:date}
+  end
+
+  def encrypter(message, keys, offsets)
+    final_string = ""
     key_offset_counter = 0
     message.each_char do |letter|
       shift = keys[key_offset_counter].to_i + offsets[key_offset_counter].to_i
@@ -16,11 +21,11 @@ class Enigma
         alphabet_tracker = alphabet_tracker + 1
         alphabet_tracker = 0 if alphabet_tracker == 27
       end
-      encryption += @alphabet[alphabet_tracker]
+      final_string += @alphabet[alphabet_tracker]
       key_offset_counter += 1
       key_offset_counter = 0 if key_offset_counter == 4
     end
-    require "pry"; binding.pry
+    final_string
   end
 
   def key_combinations(key)
