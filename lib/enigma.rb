@@ -5,9 +5,7 @@ class Enigma
   end
 
   def encrypt(message, key, date = nil)
-    if date == nil
-      date = Date.today.strftime("%m%d%y")
-    end
+    date = Date.today.strftime("%m%d%y") if date.nil?
     keys = key_combinations(key)
     offsets = date_offset(date)
     encrypted_message = encrypter(message, keys, offsets)
@@ -15,9 +13,7 @@ class Enigma
   end
 
   def decrypt(cyphertext, key, date = nil)
-    if date == nil
-      date = Date.today.strftime("%m%d%y")
-    end
+    date = Date.today.strftime("%m%d%y") if date.nil?
     keys = key_combinations(key)
     offsets = date_offset(date)
     decrypted_message = decrypter(cyphertext, keys, offsets)
