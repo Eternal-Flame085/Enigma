@@ -59,11 +59,12 @@ class EnigmaTest < Minitest::Test
 
 	def test_encrypt_with_key
 		enigma = Enigma.new
+		enigma.stubs(:generate_date).returns("091920")
 
 		expected = {
 			encryption: "pib wdmczpu",
 			key: "02715",
-			date: Date.today.strftime("%m%d%y")
+			date: "091920"
 		}
 
 		assert_equal expected, enigma.encrypt("hello world", "02715")
@@ -72,11 +73,12 @@ class EnigmaTest < Minitest::Test
 	def test_encrypt_random_key
 		enigma = Enigma.new
 		enigma.stubs(:generate_key).returns("02715")
+		enigma.stubs(:generate_date).returns("091920")
 
 		expected = {
 			encryption: "pib wdmczpu",
 			key: "02715",
-			date: Date.today.strftime("%m%d%y")
+			date: "091920"
 		}
 
 		assert_equal expected, enigma.encrypt("hello world")
