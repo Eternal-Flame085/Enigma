@@ -1,4 +1,5 @@
 require './lib/little_helpers'
+require 'date'
 class Enigma
   include LittleHelpers
   attr_reader :alphabet
@@ -8,7 +9,7 @@ class Enigma
 
   def encrypt(message, key = nil, date = nil)
     key = generate_key if key.nil?
-    date = Date.today.strftime("%m%d%y") if date.nil?
+    date = generate_date if date.nil?
     keys = key_combinations(key)
     offsets = date_offset(date)
     encrypted_message = encrypter(message, keys, offsets)
@@ -16,7 +17,7 @@ class Enigma
   end
 
   def decrypt(cyphertext, key, date = nil)
-    date = Date.today.strftime("%m%d%y") if date.nil?
+    date = generate_date if date.nil?
     keys = key_combinations(key)
     offsets = date_offset(date)
     decrypted_message = decrypter(cyphertext, keys, offsets)
