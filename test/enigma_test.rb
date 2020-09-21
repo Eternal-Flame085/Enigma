@@ -22,20 +22,13 @@ class EnigmaTest < Minitest::Test
 	def test_encrypt
 		enigma = Enigma.new
 
-		expected1 = {
+		expected = {
      	encryption: "keder ohulw",
      	key: "02715",
      	date: "040895"
    	}
 
-		expected2 = {
-     	encryption: "keder ohulw!",
-     	key: "02715",
-     	date: "040895"
-   	}
-
-		assert_equal expected1, enigma.encrypt("hello world", "02715", "040895")
-		assert_equal expected2, enigma.encrypt("hello world!", "02715", "040895")
+		assert_equal expected, enigma.encrypt("hello world", "02715", "040895")
 	end
 
 	def test_decrypt
@@ -114,5 +107,15 @@ class EnigmaTest < Minitest::Test
 
 		assert_includes 1..9999, enigma.generate_key.to_i
 		assert_equal "0", enigma.generate_key[0]
+	end
+
+	def test_encrypter
+		enigma = Enigma.new
+
+		keys = enigma.key_combinations("02715")
+		offsets = enigma.date_offset("040895")
+
+		assert_equal "keder ohulw", enigma.encrypter("hello world", keys, offsets)
+		assert_equal "keder ohulw@!#", enigma.encrypter("hello world@!#", keys, offsets)
 	end
 end
