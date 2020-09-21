@@ -29,8 +29,8 @@ module LittleHelpers
         next
       end
       shift = keys[key_offset_counter].to_i + offsets[key_offset_counter].to_i
-      final_shift = shift_finder(shift, letter, "encrypt")
-      final_string += @alphabet[final_shift]
+      alphabet_index = alphabet_index_finder(shift, letter, "encrypt")
+      final_string += @alphabet[alphabet_index]
       key_offset_counter += 1
       key_offset_counter = 0 if key_offset_counter == 4
     end
@@ -46,24 +46,24 @@ module LittleHelpers
         next
       end
       shift = keys[key_offset_counter].to_i + offsets[key_offset_counter].to_i
-      final_shift = shift_finder(shift, letter, "decrypt")
-      final_string += @alphabet[final_shift]
+      alphabet_index = alphabet_index_finder(shift, letter, "decrypt")
+      final_string += @alphabet[alphabet_index]
       key_offset_counter += 1
       key_offset_counter = 0 if key_offset_counter == 4
     end
     final_string
   end
 
-  def shift_finder(shift, letter, shift_type)
+  def alphabet_index_finder(shift, letter, shift_type)
     alphabet_tracker = @alphabet.index(letter.downcase)
     if shift_type == "encrypt"
       shift.times do
-        alphabet_tracker = alphabet_tracker + 1
+        alphabet_tracker += 1
         alphabet_tracker = 0 if alphabet_tracker == 27
       end
     elsif shift_type == "decrypt"
       shift.times do
-        alphabet_tracker = alphabet_tracker - 1
+        alphabet_tracker -= 1
         alphabet_tracker = 26 if alphabet_tracker == -1
       end
     end
