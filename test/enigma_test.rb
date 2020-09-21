@@ -128,4 +128,16 @@ class EnigmaTest < Minitest::Test
 		assert_equal 10, enigma.alphabet_index_finder(3, "h", "encrypt")
 		assert_equal 7, enigma.alphabet_index_finder(3, "k", "decrypt")
 	end
+
+	def test_encrypt_shift
+		enigma = Enigma.new
+
+		assert_equal 10, enigma.encrypt_shift(3, "h")
+	end
+
+	def test_decrypt_shift
+		enigma = Enigma.new
+
+		assert_equal 7, enigma.decrypt_shift(3, "k")
+	end
 end
