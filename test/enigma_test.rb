@@ -121,4 +121,11 @@ class EnigmaTest < Minitest::Test
 		assert_equal "hello world", enigma.decrypter("keder ohulw", keys, offsets)
 		assert_equal "hello world!@$", enigma.decrypter("keder ohulw!@$", keys, offsets)
 	end
+
+	def test_find_sift
+		enigma = Enigma.new
+
+		assert_equal 10, enigma.shift_finder(3, "h", "encrypt")
+		assert_equal 7, enigma.shift_finder(3, "k", "decrypt")
+	end
 end
