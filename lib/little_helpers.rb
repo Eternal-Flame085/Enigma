@@ -8,20 +8,16 @@ module LittleHelpers
   end
 
   def key_combinations(key)
-    collector = []
-    key.split("").each_cons(2) {|consecutive| collector << consecutive}
-    collector.each_with_index do |keys, index|
-      collector[index] = keys[0]+keys[1]
+    keys = []
+    key.split("").each_cons(2) do |consecutive_numbers|
+      keys << consecutive_numbers[0] + consecutive_numbers[1]
     end
-    collector
+    keys
   end
 
   def date_offset(date)
-    offsets = []
-    (date.to_i ** 2).to_s[-4..-1].split("").each do |diget|
-      offsets << diget
-    end
-    offsets
+    date_squared = (date.to_i ** 2).to_s.split("")
+    date_squared.pop(4)
   end
 
   def encrypter(message, keys, offsets)

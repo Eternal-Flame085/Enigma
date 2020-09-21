@@ -22,39 +22,25 @@ class EnigmaTest < Minitest::Test
 	def test_encrypt
 		enigma = Enigma.new
 
-		expected1 = {
+		expected = {
      	encryption: "keder ohulw",
      	key: "02715",
      	date: "040895"
    	}
 
-		expected2 = {
-     	encryption: "keder ohulw!",
-     	key: "02715",
-     	date: "040895"
-   	}
-
-		assert_equal expected1, enigma.encrypt("hello world", "02715", "040895")
-		assert_equal expected2, enigma.encrypt("hello world!", "02715", "040895")
+		assert_equal expected, enigma.encrypt("hello world", "02715", "040895")
 	end
 
 	def test_decrypt
 		enigma = Enigma.new
 
-		expected1 = {
+		expected = {
 			decryption: "hello world",
 			key: "02715",
 			date: "040895"
 		}
 
-		expected2 = {
-			decryption: "hello world!",
-			key: "02715",
-			date: "040895"
-		}
-
-		assert_equal expected1, enigma.decrypt("keder ohulw", "02715", "040895")
-		assert_equal expected2, enigma.decrypt("keder ohulw!", "02715", "040895")
+		assert_equal expected, enigma.decrypt("keder ohulw", "02715", "040895")
 	end
 
 	def test_encrypt_with_key
@@ -95,5 +81,51 @@ class EnigmaTest < Minitest::Test
 		encrypted = enigma.encrypt("hello world", "02715")
 
 		assert_equal expected, enigma.decrypt(encrypted[:encryption], "02715")
+	end
+
+	def test_date_offset
+		enigma = Enigma.new
+
+		assert_equal ["4", "4", "0", "0"], enigma.date_offset("092120")
+	end
+
+	def test_key_combinations
+		enigma = Enigma.new
+
+		assert_equal ["02", "27" , "71", "15"], enigma.key_combinations("02715")
+	end
+
+	def test_generate_key
+		enigma = Enigma.new
+
+		assert_includes 0..9999, enigma.generate_key.to_i
+		assert_equal "0", enigma.generate_key[0]
+	end
+
+	def test_encrypter
+		enigma = Enigma.new
+
+		keys = enigma.key_combinations("02715")
+		offsets = enigma.date_offset("040895")
+
+		assert_equal "keder ohulw", enigma.encrypter("hello world", keys, offsets)
+		assert_equal "keder ohulw#@!#", enigma.encrypter("hello world#@!#", keys, offsets)
+	end
+
+	def test_decrypter
+		enigma = Enigma.new
+
+		keys = enigma.key_combinations("02715")
+		offsets = enigma.date_offset("040895")
+
+		assert_equal "hello world", enigma.decrypter("keder ohulw", keys, offsets)
+		assert_equal "hello world!@$", enigma.decrypter("keder ohulw!@$", keys, offsets)
+	end
+
+	def test_find_sift
+		enigma = Enigma.new
+
+		assert_equal 10, enigma.shift_finder(3, "h", "encrypt")
+		assert_equal 7, enigma.shift_finder(3, "k", "decrypt")
 	end
 end
