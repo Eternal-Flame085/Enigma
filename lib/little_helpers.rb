@@ -17,11 +17,8 @@ module LittleHelpers
   end
 
   def date_offset(date)
-    offsets = []
-    (date.to_i ** 2).to_s[-4..-1].split("").each do |diget|
-      offsets << diget
-    end
-    offsets
+    date_squared = (date.to_i ** 2).to_s.split("")
+    date_squared.pop(4)
   end
 
   def encrypter(message, keys, offsets)
