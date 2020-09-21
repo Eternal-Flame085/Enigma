@@ -102,4 +102,10 @@ class EnigmaTest < Minitest::Test
 
 		assert_equal ["4", "4", "0", "0"], enigma.date_offset("092120")
 	end
+
+	def test_key_combinations
+		enigma = Enigma.new
+
+		assert_equal ["02", "27" , "71", "15"], enigma.key_combinations("02715")
+	end
 end
