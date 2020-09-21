@@ -55,18 +55,29 @@ module LittleHelpers
   end
 
   def alphabet_index_finder(shift, letter, shift_type)
-    alphabet_tracker = @alphabet.index(letter.downcase)
     if shift_type == "encrypt"
-      shift.times do
-        alphabet_tracker += 1
-        alphabet_tracker = 0 if alphabet_tracker == 27
-      end
+      final_index = encrypt_shift(shift, letter)
     elsif shift_type == "decrypt"
-      shift.times do
-        alphabet_tracker -= 1
-        alphabet_tracker = 26 if alphabet_tracker == -1
-      end
+      final_index = decrypt_shift(shift, letter)
     end
-    alphabet_tracker
+    final_index
+  end
+
+  def encrypt_shift(shift, letter)
+    alphabet_index = @alphabet.index(letter.downcase)
+    shift.times do
+      alphabet_index += 1
+      alphabet_index = 0 if alphabet_index == 27
+    end
+    alphabet_index
+  end
+
+  def decrypt_shift(shift, letter)
+    alphabet_index = @alphabet.index(letter.downcase)
+    shift.times do
+      alphabet_index -= 1
+      alphabet_index = 26 if alphabet_index == -1
+    end
+    alphabet_index
   end
 end
