@@ -98,7 +98,7 @@ class EnigmaTest < Minitest::Test
 	def test_generate_key
 		enigma = Enigma.new
 
-		assert_includes 1..9999, enigma.generate_key.to_i
+		assert_includes 0..9999, enigma.generate_key.to_i
 		assert_equal "0", enigma.generate_key[0]
 	end
 
@@ -109,10 +109,10 @@ class EnigmaTest < Minitest::Test
 		offsets = enigma.date_offset("040895")
 
 		assert_equal "keder ohulw", enigma.encrypter("hello world", keys, offsets)
-		assert_equal "keder ohulw@!#", enigma.encrypter("hello world@!#", keys, offsets)
+		assert_equal "keder ohulw#@!#", enigma.encrypter("hello world#@!#", keys, offsets)
 	end
 
-	def test_encrypter
+	def test_decrypter
 		enigma = Enigma.new
 
 		keys = enigma.key_combinations("02715")
