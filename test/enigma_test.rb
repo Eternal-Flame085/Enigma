@@ -108,4 +108,11 @@ class EnigmaTest < Minitest::Test
 
 		assert_equal ["02", "27" , "71", "15"], enigma.key_combinations("02715")
 	end
+
+	def test_generate_key
+		enigma = Enigma.new
+
+		assert_includes 1..9999, enigma.generate_key.to_i
+		assert_equal "0", enigma.generate_key[0]
+	end
 end

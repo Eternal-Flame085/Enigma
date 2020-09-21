@@ -8,12 +8,11 @@ module LittleHelpers
   end
 
   def key_combinations(key)
-    collector = []
-    key.split("").each_cons(2) {|consecutive| collector << consecutive}
-    collector.each_with_index do |keys, index|
-      collector[index] = keys[0]+keys[1]
+    keys = []
+    key.split("").each_cons(2) do |consecutive_numbers|
+      keys << consecutive_numbers[0] + consecutive_numbers[1]
     end
-    collector
+    keys
   end
 
   def date_offset(date)
