@@ -96,4 +96,10 @@ class EnigmaTest < Minitest::Test
 
 		assert_equal expected, enigma.decrypt(encrypted[:encryption], "02715")
 	end
+
+	def test_date_offset
+		enigma = Enigma.new
+
+		assert_equal ["4", "4", "0", "0"], enigma.date_offset("092120")
+	end
 end
